@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { link } = require('fs');
 var HTMLParser = require('node-html-parser');
 let url = 'https://www.corona-in-zahlen.de' 
 

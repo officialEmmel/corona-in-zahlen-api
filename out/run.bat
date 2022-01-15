@@ -1,0 +1,1 @@
+tsc -p d:\PROJEKTE\Scripting\GITHUB\corona-in-zahlen-api\tsconfig.json && node .

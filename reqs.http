@@ -2,6 +2,14 @@ http://127.0.0.1:3000/geo?long=134343&lat=25425
 ###
 GET http://127.0.0.1:3000/lk/lk%20hildesheim/
 ###
+GET http://127.0.0.1:3000/lk/sk%20berlin%20neuk%C3%B6lln
+###
 GET http://127.0.0.1:3000/bl/niedersachsen/
 ###
 GET http://127.0.0.1:3000/lnd/deutschland/
+
+###
+
+GET http://127.0.0.1:3000/geo/lnd/?lat=52.1089&lon=10.1052
+###
+GET https://nominatim.openstreetmap.org/reverse?lat=53.591282416579595&lon=10.038917379655398&format=json

@@ -1,5 +1,5 @@
 import * as express from "express";
-import {lk, bl, lnd} from "./handler"
+import {lk, bl, lnd, geo} from "./handler"
 const router = express.Router();
 const app = express();
 
@@ -15,13 +15,11 @@ router.get('/lnd/:param',async (request,response) => {
     response.send(await lnd(request.params.param))
 });
 
-
-router.get('/geo/',(request,response) => {
-    response.send(request.query.long + " " + request.query.lat)
+router.get('/geo/:param',async (request,response) => {
+    response.send(await geo(request.params.param, request.query.lat, request.query.lon))
 });
 
-// add router in the Express app.
 app.use("/", router)
 app.listen(3000,() => {
     console.log("Started on PORT 3000");
-    })
+})

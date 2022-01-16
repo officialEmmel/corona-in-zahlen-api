@@ -22,9 +22,9 @@ router.get('/bl/:param', (request, response) => __awaiter(void 0, void 0, void 0
 router.get('/lnd/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     response.send(yield (0, handler_1.lnd)(request.params.param));
 }));
-router.get('/geo/', (request, response) => {
-    response.send(request.query.long + " " + request.query.lat);
-});
+router.get('/geo/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    response.send(yield (0, handler_1.geo)(request.params.param, request.query.lat, request.query.lon));
+}));
 app.use("/", router);
 app.listen(3000, () => {
     console.log("Started on PORT 3000");

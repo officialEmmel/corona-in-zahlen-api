@@ -16,12 +16,12 @@ const app = express();
 router.get('/lk/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     response.send(yield (0, handler_1.lk)(request.params.param));
 }));
-router.get('/lnd/:param', (request, response) => {
-    response.send(request.params.param);
-});
-router.get('/bl/:param', (request, response) => {
-    response.send(request.params.param);
-});
+router.get('/bl/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    response.send(yield (0, handler_1.bl)(request.params.param));
+}));
+router.get('/lnd/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    response.send(yield (0, handler_1.lnd)(request.params.param));
+}));
 router.get('/geo/', (request, response) => {
     response.send(request.query.long + " " + request.query.lat);
 });

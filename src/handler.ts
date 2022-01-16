@@ -100,7 +100,7 @@ export async function geo(param: string, lat: any, lon: any) {
   let raw = await httpRequest(url)
   console.log(await raw.data)
   let data = await raw.data
-  try {  if(data.error != undefined) { return data.error } } catch (e) {}
+  if(data.error != undefined) { return data.error } 
   switch(param) {
     case "lk":
       let format = (data.address.county).replace("Landkreis", "lk")

@@ -17,3 +17,5 @@ GET `https://yourdomain.com/ciz-api/geo/bl?lat=53.463&lon=9.666`
 
 Country
 GET `https://yourdomain.com/ciz-api/geo/lnd?lat=53.463&lon=9.666`
+
+Dockerfile for Node js 16 container included

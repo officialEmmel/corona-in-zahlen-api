@@ -48,7 +48,6 @@ function lk(param) {
         lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten'];
         lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten'];
         lkDict['intensivecare_percentage'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten'];
-        console.log(lkDict);
         return lkDict;
     });
 }
@@ -79,7 +78,6 @@ function bl(param) {
         lkDict['hospitalization'] = cizDict['Hospitalisierungsrate'];
         lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten'];
         lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten'];
-        console.log(lkDict);
         return lkDict;
     });
 }
@@ -115,7 +113,6 @@ function lnd(param) {
         lkDict['intensivecarerate'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten'];
         lkDict['tests'] = cizDict['Tests'];
         lkDict['positive_test_rate'] = cizDict['Anteil positiver Tests'];
-        console.log(lkDict);
         return lkDict;
     });
 }
@@ -136,7 +133,6 @@ function geo(param, lat, lon) {
             case "lk":
                 let format = (data.address.county).replace("Landkreis", "lk");
                 format = (format).replace("Stadtkreis", "sk");
-                console.log(format);
                 return yield lk(format);
             case "bl":
                 return yield bl(data.address.state);
@@ -180,7 +176,6 @@ function parseCizLk(dom) {
         let n = names[i].innerHTML.split('\n')[0];
         dict[n] = val;
     }
-    console.log(dict);
     return dict;
 }
 function parseCizBl(dom) {
@@ -198,7 +193,6 @@ function parseCizBl(dom) {
             return { error: "failed to fetch data from html" };
         }
         let val = vals[i].innerHTML;
-        console.log(val);
         val = val.replace('<b>', '');
         val = val.replace('</b>', '');
         let n = names[i].innerHTML.split('\n')[0];
@@ -224,7 +218,6 @@ function parseCizLnd(dom) {
         val = val.replace('<b>', '');
         val = val.replace('</b>', '');
         val = val.replace(/\s/g, '');
-        console.log(val);
         let n = names[i].innerHTML.split('\n')[0];
         dict[n] = val;
     }

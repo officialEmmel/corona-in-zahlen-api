@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const log_1 = require("./log");
 const handler_1 = require("./handler");
 const router = express.Router();
 const app = express();
@@ -27,6 +28,8 @@ Created and maintained by officialEmmel
 LICENSE MIT: https://github.com/officialEmmel/corona-in-zahlen-api/blob/main/LICENSE
 
 More information: https://github.com/officialEmmel/corona-in-zahlen-api
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 `);
 router.get('/ciz-api/lk/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`
@@ -51,6 +54,6 @@ router.get('/ciz-api/', (request, response) => __awaiter(void 0, void 0, void 0,
 }));
 app.use("/", router);
 app.listen(3000, () => {
-    console.log("Started on PORT 3000");
+    (0, log_1.l)("Server listening on PORT 3000");
 });
 //# sourceMappingURL=index.js.map

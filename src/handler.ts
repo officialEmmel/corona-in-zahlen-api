@@ -1,6 +1,7 @@
 import {JSDOM} from "jsdom";
 import axios, { AxiosResponse } from "axios";
 import { json } from "express";
+import {l} from "./log"
 
 let url = 'https://www.corona-in-zahlen.de' 
 let osmApi = (lat: string, lon: string) => {
@@ -36,7 +37,6 @@ export async function lk(param: string){
   lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten']
   lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten']
   lkDict['intensivecare_percentage'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten']
-  console.log(lkDict)
   return lkDict
 }
 
@@ -61,7 +61,6 @@ export async function bl(param: string){
   lkDict['hospitalization'] = cizDict['Hospitalisierungsrate']
   lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten']
   lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten']
-  console.log(lkDict)
   return lkDict
 }
 
@@ -92,7 +91,7 @@ export async function lnd(param: string){
   lkDict['intensivecarerate'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten']
   lkDict['tests'] = cizDict['Tests']
   lkDict['positive_test_rate'] = cizDict['Anteil positiver Tests']
-  console.log(lkDict)
+
   return lkDict
 }
 
@@ -106,7 +105,6 @@ export async function geo(param: string, lat: any, lon: any) {
     case "lk":
       let format = (data.address.county).replace("Landkreis", "lk")
       format = (format).replace("Stadtkreis", "sk")
-      console.log(format)
       return await lk(format);
     case "bl":
       return await bl(data.address.state)
@@ -155,7 +153,6 @@ function parseCizLk(dom: JSDOM){
     let n = names[i].innerHTML.split('\n')[0]
     dict[n] = val
   }
-  console.log(dict)
   return dict
 }
 
@@ -177,7 +174,6 @@ function parseCizBl(dom: JSDOM){
   {
     if(vals[i] == undefined){ return {error: "failed to fetch data from html"}}
     let val = vals[i].innerHTML
-    console.log(val)
     val = val.replace('<b>','')
     val = val.replace('</b>','')
     let n = names[i].innerHTML.split('\n')[0]
@@ -207,7 +203,6 @@ function parseCizLnd(dom: JSDOM){
     val = val.replace('<b>','')
     val = val.replace('</b>','')
     val = val.replace(/\s/g,'')
-    console.log(val)
     let n = names[i].innerHTML.split('\n')[0]
     dict[n] = val
   }

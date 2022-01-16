@@ -13,17 +13,41 @@ const express = require("express");
 const handler_1 = require("./handler");
 const router = express.Router();
 const app = express();
-router.get('/lk/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+let version = "1.1.0";
+console.log(`
+██████╗██╗███████╗      █████╗ ██████╗ ██╗
+██╔════╝██║╚══███╔╝     ██╔══██╗██╔══██╗██║
+██║     ██║  ███╔╝█████╗███████║██████╔╝██║
+██║     ██║ ███╔╝ ╚════╝██╔══██║██╔═══╝ ██║
+╚██████╗██║███████╗     ██║  ██║██║     ██║
+ ╚═════╝╚═╝╚══════╝     ╚═╝  ╚═╝╚═╝     ╚═╝
+                                           
+Corona-in-Zahlen-api v${version}
+Created and maintained by officialEmmel
+LICENSE MIT: https://github.com/officialEmmel/corona-in-zahlen-api/blob/main/LICENSE
+
+More information: https://github.com/officialEmmel/corona-in-zahlen-api
+`);
+router.get('/ciz-api/lk/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(`
+NEW REQUEST:
+Path: ${request.path}:
+Ip: ${request.ip}
+User-Agent: ${request.headers.Agent}
+    `);
     response.send(yield (0, handler_1.lk)(request.params.param));
 }));
-router.get('/bl/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/ciz-api/bl/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     response.send(yield (0, handler_1.bl)(request.params.param));
 }));
-router.get('/lnd/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/ciz-api/lnd/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     response.send(yield (0, handler_1.lnd)(request.params.param));
 }));
-router.get('/geo/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/ciz-api/geo/:param', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     response.send(yield (0, handler_1.geo)(request.params.param, request.query.lat, request.query.lon));
+}));
+router.get('/ciz-api/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    response.send({ information: "corona-in-zahlen-api v" + version + " created and maintained by emmel. Usage, License and Information: https://github.com/officialEmmel/corona-in-zahlen-api" });
 }));
 app.use("/", router);
 app.listen(3000, () => {

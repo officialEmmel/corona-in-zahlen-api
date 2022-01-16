@@ -1,6 +1,6 @@
 http://127.0.0.1:3000/geo?long=134343&lat=25425
 ###
-GET http://127.0.0.1:3000/lk/lk%20hildesheim/
+GET http://127.0.0.1:3000/ciz-api/lk/lk%20hildesheim/
 ###
 GET http://127.0.0.1:3000/lk/sk%20berlin%20neuk%C3%B6lln
 ###

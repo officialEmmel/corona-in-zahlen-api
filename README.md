@@ -1,10 +1,5 @@
 # covid-19-api
-██████╗██╗███████╗      █████╗ ██████╗ ██╗
-██╔════╝██║╚══███╔╝     ██╔══██╗██╔══██╗██║
-██║     ██║  ███╔╝█████╗███████║██████╔╝██║
-██║     ██║ ███╔╝ ╚════╝██╔══██║██╔═══╝ ██║
-╚██████╗██║███████╗     ██║  ██║██║     ██║
- ╚═════╝╚═╝╚══════╝     ╚═╝  ╚═╝╚═╝     ╚═╝
+![ciz-logo](https://www.corona-in-zahlen.de/static/apple-touch-icon.png)
 An api for https://www.corona-in-zahlen.de written in node js and typescript
 
 ## Endpoints

@@ -16,6 +16,9 @@ let url = 'https://www.corona-in-zahlen.de';
 let osmApi = (lat, lon) => {
     return `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
 };
+let lk_location_not_found = 114;
+let bl_location_not_found = 124;
+let lnd_location_not_found = 134;
 function lk(param) {
     return __awaiter(this, void 0, void 0, function* () {
         let raw = yield httpRequest(url + '/landkreise/' + encodeURIComponent(param) + '/');
@@ -31,11 +34,6 @@ function lk(param) {
         let type = yield raw.request.path.split('/')[2];
         type = decodeURIComponent(type);
         type = type.split(" ")[0];
-        lkDict["meta"] = {
-            data_sources: "Data from JHU, ECDC, 'Our World in Data', RKI, DIVI provided by https://www.corona-in-zahlen.de",
-            geocoding: "Geocoding is provided by https://nominatim.org/ with data from https://openstreetmap.org",
-            about: "Api written by emmel. Source Code: https://github.com/officialEmmel/corona-in-zahlen-api"
-        };
         lkDict['date'] = cizDict['date'];
         lkDict['type'] = type;
         lkDict['name'] = cizDict['name'];
@@ -48,10 +46,19 @@ function lk(param) {
         lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten'];
         lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten'];
         lkDict['intensivecare_percentage'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten'];
-        return lkDict;
+        return meta(lkDict);
     });
 }
 exports.lk = lk;
+function meta(lkDict) {
+    lkDict["meta"] = {
+        data_provider: "Data provided by https://www.corona-in-zahlen.de",
+        data_sources: "JHU, ECDC, 'Our World in Data', RKI, DIVI. Learn more: https://www.corona-in-zahlen.de/datenquellen/",
+        geocoding: "Geocoding is provided by https://nominatim.org/ with data from https://openstreetmap.org",
+        about: "Api written by emmel. Source Code: https://github.com/officialEmmel/corona-in-zahlen-api"
+    };
+    return lkDict;
+}
 function bl(param) {
     return __awaiter(this, void 0, void 0, function* () {
         let raw = yield httpRequest(url + '/bundeslaender/' + encodeURIComponent(param) + '/');
@@ -78,7 +85,7 @@ function bl(param) {
         lkDict['hospitalization'] = cizDict['Hospitalisierungsrate'];
         lkDict['intensivecare'] = cizDict['Intensivmedizinisch behandelte COVID‑19 Patienten'];
         lkDict['ventilated'] = cizDict['Invasiv beatmete COVID‑19 Patienten'];
-        return lkDict;
+        return meta(lkDict);
     });
 }
 exports.bl = bl;
@@ -113,22 +120,22 @@ function lnd(param) {
         lkDict['intensivecarerate'] = cizDict['Anteil COVID‑19 Patienten an Intensivbetten'];
         lkDict['tests'] = cizDict['Tests'];
         lkDict['positive_test_rate'] = cizDict['Anteil positiver Tests'];
-        return lkDict;
+        return meta(lkDict);
     });
 }
 exports.lnd = lnd;
 function geo(param, lat, lon) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (lat == undefined || lat == null || lon == undefined || lon == null) {
+            return { error: "latitude and longitude are required for gecoding" };
+        }
         let url = osmApi(lat, lon);
         let raw = yield httpRequest(url);
         console.log(yield raw.data);
         let data = yield raw.data;
-        try {
-            if (data.error != undefined) {
-                return data.error;
-            }
+        if (data.error != undefined) {
+            return { error: "Nominatim error: " + data.error, code: 141 };
         }
-        catch (e) { }
         switch (param) {
             case "lk":
                 let format = (data.address.county).replace("Landkreis", "lk");
@@ -168,13 +175,16 @@ function parseCizLk(dom) {
     dict["date"] = date.toLocaleDateString();
     for (let i = 0; i < vals.length; i++) {
         if (vals[i] == undefined) {
-            return { error: "failed to fetch data from html" };
+            return { error: "failed to fetch data from html", code: 110 };
         }
         let val = vals[i].innerHTML;
         val = val.replace('<b>', '');
         val = val.replace('</b>', '');
         let n = names[i].innerHTML.split('\n')[0];
         dict[n] = val;
+    }
+    if (dict["name"] == "Städte und Landkreise in Deutschland") {
+        return { error: "location not found", code: lk_location_not_found };
     }
     return dict;
 }
@@ -188,15 +198,18 @@ function parseCizBl(dom) {
     let dateStr = dom.window.document.querySelectorAll(".badge")[0].innerHTML;
     let date = new Date(dateStr.slice(16));
     dict["date"] = date.toLocaleDateString();
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < vals.length; i++) {
         if (vals[i] == undefined) {
-            return { error: "failed to fetch data from html" };
+            return { error: "failed to fetch data from html", code: 120 };
         }
         let val = vals[i].innerHTML;
         val = val.replace('<b>', '');
         val = val.replace('</b>', '');
         let n = names[i].innerHTML.split('\n')[0];
         dict[n] = val;
+    }
+    if (dict["name"] == "Bundesländer in Deutschland") {
+        return { error: "location not found", code: bl_location_not_found };
     }
     return dict;
 }
@@ -210,9 +223,9 @@ function parseCizLnd(dom) {
     let dateStr = dom.window.document.querySelectorAll(".badge")[0].innerHTML;
     let date = new Date(dateStr.slice(16));
     dict["date"] = date.toLocaleDateString();
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < vals.length; i++) {
         if (vals[i] == undefined) {
-            return { error: "failed to fetch data from html" };
+            return { error: "failed to fetch data from html", code: 130 };
         }
         let val = vals[i].innerHTML;
         val = val.replace('<b>', '');
@@ -220,6 +233,9 @@ function parseCizLnd(dom) {
         val = val.replace(/\s/g, '');
         let n = names[i].innerHTML.split('\n')[0];
         dict[n] = val;
+    }
+    if (dict["name"] == "Bundesländer in Deutschland") {
+        return { error: "location not found", code: lnd_location_not_found };
     }
     return dict;
 }

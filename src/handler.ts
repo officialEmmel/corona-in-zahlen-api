@@ -110,7 +110,7 @@ export async function geo(param: string, lat: any, lon: any) {
   let raw = await httpRequest(url)
   console.log(await raw.data)
   let data = await raw.data
-  if(data.error != undefined) { return data.error } 
+  if(data.error != undefined) {return {error:"Nominatim error: " + data.error, code:141}} 
   switch(param) {
     case "lk":
       let format = (data.address.county).replace("Landkreis", "lk")
@@ -181,7 +181,7 @@ function parseCizBl(dom: JSDOM){
   let date = new Date(dateStr.slice(16))
   dict["date"] = date.toLocaleDateString()
 
-  for(let i = 0; i < 12; i++)
+  for(let i = 0; i < vals.length; i++)
   {
     if(vals[i] == undefined){ return {error: "failed to fetch data from html", code:120}}
     let val = vals[i].innerHTML
@@ -190,7 +190,7 @@ function parseCizBl(dom: JSDOM){
     let n = names[i].innerHTML.split('\n')[0]
     dict[n] = val
   }
-  if(dict["name"] == "Corona-Zahlen für Bundesländer in Deutschland"){ return {error: "location not found", code:bl_location_not_found}}
+  if(dict["name"] == "Bundesländer in Deutschland"){ return {error: "location not found", code:bl_location_not_found}}
   return dict
 }
 
@@ -208,7 +208,7 @@ function parseCizLnd(dom: JSDOM){
   let date = new Date(dateStr.slice(16))
   dict["date"] = date.toLocaleDateString()
 
-  for(let i = 0; i < 16; i++)
+  for(let i = 0; i < vals.length; i++)
   {
     if(vals[i] == undefined){ return {error: "failed to fetch data from html", code:130}}
     let val = vals[i].innerHTML
@@ -218,7 +218,7 @@ function parseCizLnd(dom: JSDOM){
     let n = names[i].innerHTML.split('\n')[0]
     dict[n] = val
   }
-  if(dict["name"] == "Corona-Zahlen für Bundesländer in Deutschland"){ return {error: "location not found", code:lnd_location_not_found}}
+  if(dict["name"] == "Bundesländer in Deutschland"){ return {error: "location not found", code:lnd_location_not_found}}
   return dict
 }
 

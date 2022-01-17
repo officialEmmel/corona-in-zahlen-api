@@ -4,7 +4,7 @@ import {lk, bl, lnd, geo} from "./handler"
 const router = express.Router();
 const app = express();
 
-let version = "1.2.0";
+let version = "1.2.2";
 
 console.log(`
 ██████╗██╗███████╗      █████╗ ██████╗ ██╗
@@ -26,6 +26,11 @@ More information: https://github.com/officialEmmel/corona-in-zahlen-api
 router.get('/ciz-api/lk/:param',async (request,response) => {
     req_log(request);
     response.send(await lk(request.params.param))
+});
+
+router.get('/ciz-api/lk/', async (request,response) => {
+    req_log(request);
+    response.send({error:"No param provided"})
 });
 
 router.get('/ciz-api/bl/:param', async (request,response) => {

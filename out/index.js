@@ -14,9 +14,9 @@ const log_1 = require("./log");
 const handler_1 = require("./handler");
 const router = express.Router();
 const app = express();
-let version = "1.2.0";
+let version = "1.2.2";
 console.log(`
-██████╗██╗███████╗      █████╗ ██████╗ ██╗
+ ██████╗██╗███████╗      █████╗ ██████╗ ██╗
 ██╔════╝██║╚══███╔╝     ██╔══██╗██╔══██╗██║
 ██║     ██║  ███╔╝█████╗███████║██████╔╝██║
 ██║     ██║ ███╔╝ ╚════╝██╔══██║██╔═══╝ ██║

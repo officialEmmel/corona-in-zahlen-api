@@ -1,4 +1,4 @@
-<img src="https://www.corona-in-zahlen.de/static/apple-touch-icon.png" width="100px"/>
+<img src="https://www.corona-in-zahlen.de/static/apple-touch-icon.png" width="100px"></img>
 # Corona-in-Zahlen-API
 An unofficial api for https://www.corona-in-zahlen.de written in node js and typescript
 ## Endpoints

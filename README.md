@@ -1,6 +1,6 @@
 # Corona-in-Zahlen-API
 An unofficial api for https://www.corona-in-zahlen.de written in node js and typescript
-[image](https://www.corona-in-zahlen.de/static/apple-touch-icon.png)
+![image](https://www.corona-in-zahlen.de/static/apple-touch-icon.png)
 ## Endpoints
 ### Districts:
 GET `https://yourdomain.com/ciz-api/lk/sk%20hamburg`
